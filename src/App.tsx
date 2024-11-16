@@ -8,8 +8,8 @@ import { lazy, Suspense } from "react";
 // import DetailsPage from "./pages/home/countrie-details-page/components/details-page";
 
 const LazyHomePage = lazy(() => import("./pages/home/home"));
-// const LazyAboutPage = lazy(() => import('./pages/about/views'));
-// const LazyContactPage = lazy(() => import('./pages/contact/views'));
+const LazyLoginPage = lazy(() => import("./pages/sign-in"));
+const LazyRegisterPage = lazy(() => import("./pages/sign-up"));
 // const LazyOtpPage = lazy(() => import('./pages/otp/views'));
 
 function App() {
@@ -31,6 +31,22 @@ function App() {
             element={
               <Suspense fallback={<Skeleton />}>
                 <LazyHomePage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="login"
+            element={
+              <Suspense fallback={<Skeleton />}>
+                <LazyLoginPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="register"
+            element={
+              <Suspense fallback={<Skeleton />}>
+                <LazyRegisterPage />
               </Suspense>
             }
           />

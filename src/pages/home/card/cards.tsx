@@ -25,6 +25,7 @@ const Cards: React.FC = () => {
         <BlogCard key={blog.id} blog={blog} />
       ))}
     </div>
+    
   );
 };
 

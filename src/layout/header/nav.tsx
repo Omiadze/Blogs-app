@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -7,9 +6,11 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, Search, Globe } from "lucide-react";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function NavMenu() {
-  const [isDarkMode, setIsDarkMode] = React.useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => {
     setIsDarkMode((prev) => !prev);
@@ -17,7 +18,7 @@ export function NavMenu() {
   };
 
   return (
-    <div className="w-full flex justify-between pl-52 pr-52 pt-5 pb-5 mb-16 border-b-2 border-black dark:border-white">
+    <div className="w-full flex justify-between pl-52 pr-52 pt-5 pb-5  border-b-2 border-black dark:border-white">
       {/* Left: Logo */}
       <div className="text-xl font-bold text-gray-800 dark:text-white">
         <h1 className="text-5xl">BitBlog</h1>
@@ -44,7 +45,11 @@ export function NavMenu() {
           <Search className="mr-2 w-5 h-5" />
           Search
         </Button>
-
+        <Link to={"/login"}>
+          <Button variant="outline" className="bg-blue-500 rounded-2xl">
+            Sign In{" "}
+          </Button>
+        </Link>
         {/* Language Switcher */}
         <Button variant="ghost" className="flex items-center dark:text-white">
           <Globe className="mr-2 w-5 h-5" />
@@ -52,16 +57,16 @@ export function NavMenu() {
         </Button>
 
         {/* Theme Toggle */}
-        <button
+        <Button
           onClick={toggleTheme}
-          className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
+          className="bg-white text-gray-600 dark:bg-gray-950 dark:border-2 rounded-3xl dark:border-white dark:text-white hover:text-gray-900 hover:bg-slate-100 dark:hover:bg-slate-500 dark:hover:text-white"
         >
           {isDarkMode ? (
-            <Sun className="w-5 h-5" />
+            <Moon className="w-5 h-5 " />
           ) : (
-            <Moon className="w-5 h-5" />
+            <Sun className="w-5 h-5" />
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

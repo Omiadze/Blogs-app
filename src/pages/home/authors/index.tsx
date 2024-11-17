@@ -17,11 +17,11 @@ const Authors = () => {
     },
   ];
   return (
-    <div className="p-8 border-2 border-black rounded-xl dark:border-white">
+    <div className="rounded-xl border-2 border-black p-8 dark:border-white">
       <h3 className="mb-6 dark:text-white">Featured Authors</h3>
       {authors.map((author) => (
-        <div key={author.id} className="flex gap-2 mb-3">
-          <div className="w-12 h-12  bg-white border-2 border-black rounded-full"></div>
+        <div key={author.id} className="mb-3 flex gap-2">
+          <div className="h-12 w-12 rounded-full border-2 border-black bg-white"></div>
           <div className="dark:text-white">
             <h5>{author.name}</h5>
             <p>{author.profession}</p>

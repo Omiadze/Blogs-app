@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import {
   Form,
   FormField,
@@ -12,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
 function SignUp() {
+  const { t } = useTranslation();
+
   const form = useForm({
     defaultValues: {
       email: "",
@@ -25,13 +28,13 @@ function SignUp() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md p-8 bg-white rounded shadow dark:border-white dark:bg-gray-900 dark:text-white border-2">
-        <div className="flex flex-col justify-center items-center mb-8">
-          <h1 className="text-2xl font-bold text-center mb-4 ">
-            Sing Up to BitBlogs
+    <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
+      <div className="w-full max-w-md rounded border-2 bg-white p-8 shadow dark:border-white dark:bg-gray-900 dark:text-white">
+        <div className="mb-8 flex flex-col items-center justify-center">
+          <h1 className="mb-4 text-center text-2xl font-bold">
+            {t("sign-up-title")}
           </h1>
-          <p>Enter your credentials to access your account</p>
+          <p>{t("sign-up-subtitle")}</p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -40,9 +43,9 @@ function SignUp() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t("email")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter your email" {...field} />
+                    <Input placeholder={t("email-placeholder")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -53,11 +56,11 @@ function SignUp() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("password")}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Enter your password"
+                      placeholder={t("password-placeholder")}
                       {...field}
                     />
                   </FormControl>
@@ -70,11 +73,11 @@ function SignUp() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
+                  <FormLabel>{t("confirm-password")}</FormLabel>
                   <FormControl>
                     <Input
                       type="password"
-                      placeholder="Confirm your password"
+                      placeholder={t("confirm-password-placeholder")}
                       {...field}
                     />
                   </FormControl>
@@ -84,20 +87,21 @@ function SignUp() {
             />
             <Button
               type="submit"
-              className="w-full  bg-blue-700 text-white rounded-2xl dark:bg-blue-700 dark:text-white"
+              className="w-full rounded-2xl bg-blue-700 text-white dark:bg-blue-700 dark:text-white"
             >
-              Sign Up
+              {t("sign-up")}
             </Button>
           </form>
         </Form>
-        <p className="text-sm text-center mt-4">
-          Already have an account?{" "}
+        <p className="mt-4 text-center text-sm">
+          {t("already-have-account")}{" "}
           <Link to={"/login"} className="text-blue-700">
-            Sign In
+            {t("sign-in")}
           </Link>
         </p>
       </div>
     </div>
   );
 }
+
 export default SignUp;

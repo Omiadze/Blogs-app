@@ -5,9 +5,11 @@ import {
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
-import { Sun, Moon, Search, Globe } from "lucide-react";
+import { Sun, Moon, Search } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import i18n from "i18next";
 
 export function NavMenu() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -16,55 +18,68 @@ export function NavMenu() {
     setIsDarkMode((prev) => !prev);
     document.documentElement.classList.toggle("dark", !isDarkMode);
   };
+  const { t } = useTranslation();
+
+  const handleChangeLanguage = (lang: string) => {
+    i18n.changeLanguage(lang);
+  };
 
   return (
-    <div className="w-full flex justify-between pl-52 pr-52 pt-5 pb-5  border-b-2 border-black dark:border-white">
-      {/* Left: Logo */}
+    <div className="flex w-full justify-between border-b-2 border-black pb-5 pl-52 pr-52 pt-5 dark:border-white">
       <div className="text-xl font-bold text-gray-800 dark:text-white">
         <h1 className="text-5xl">BitBlog</h1>
       </div>
 
-      {/* Center: Navigation Links */}
       <NavigationMenu>
         <NavigationMenuList className="flex space-x-6 dark:text-white">
           <NavigationMenuItem>
-            <NavigationMenuLink href="/home">Home</NavigationMenuLink>
+            <NavigationMenuLink href="/home">{t("home")}</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/write">Write</NavigationMenuLink>
+            <NavigationMenuLink href="/write">{t("write")}</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/about">About</NavigationMenuLink>
+            <NavigationMenuLink href="/about">{t("about")}</NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
-      {/* Right: Actions */}
+
       <div className="flex items-center space-x-4">
-        {/* Search Button */}
         <Button variant="outline" className="flex items-center dark:text-white">
-          <Search className="mr-2 w-5 h-5" />
-          Search
+          <Search className="mr-2 h-5 w-5" />
         </Button>
         <Link to={"/login"}>
-          <Button variant="outline" className="bg-blue-500 rounded-2xl">
-            Sign In{" "}
+          <Button
+            variant="outline"
+            className="rounded-2xl bg-blue-500 dark:border-white dark:text-white"
+          >
+            {t("sign-in")}{" "}
           </Button>
         </Link>
-        {/* Language Switcher */}
-        <Button variant="ghost" className="flex items-center dark:text-white">
-          <Globe className="mr-2 w-5 h-5" />
-          Language
+
+        <Button
+          onClick={() => handleChangeLanguage("en")}
+          variant="ghost"
+          className="flex items-center dark:text-white"
+        >
+          ENG
+        </Button>
+        <Button
+          onClick={() => handleChangeLanguage("ka")}
+          variant="ghost"
+          className="flex items-center dark:text-white"
+        >
+          KA
         </Button>
 
-        {/* Theme Toggle */}
         <Button
           onClick={toggleTheme}
-          className="bg-white text-gray-600 dark:bg-gray-950 dark:border-2 rounded-3xl dark:border-white dark:text-white hover:text-gray-900 hover:bg-slate-100 dark:hover:bg-slate-500 dark:hover:text-white"
+          className="rounded-3xl bg-white text-gray-600 hover:bg-slate-100 hover:text-gray-900 dark:border-2 dark:border-white dark:bg-gray-950 dark:text-white dark:hover:bg-slate-500 dark:hover:text-white"
         >
           {isDarkMode ? (
-            <Moon className="w-5 h-5 " />
+            <Moon className="h-5 w-5" />
           ) : (
-            <Sun className="w-5 h-5" />
+            <Sun className="h-5 w-5" />
           )}
         </Button>
       </div>

@@ -1,0 +1,44 @@
+{
+  "en": {
+    "translation": {
+      "home": "Home",
+      "write": "Write",
+      "about": "About",
+      "sign-in-title": "Log in to BitBlogs",
+      "sign-in-subtitle": "Enter your credentials to access your account",
+      "email": "Email",
+      "email-placeholder": "Enter your email",
+      "password": "Password",
+      "password-placeholder": "Enter your password",
+      "sign-in": "Sign In",
+      "no-account": "Don't have an account?",
+      "sign-up": "Sign Up",
+      "sign-up-title": "Sign Up to BitBlogs",
+      "sign-up-subtitle": "Enter your credentials to create your account",
+      "confirm-password": "Confirm Password",
+      "confirm-password-placeholder": "Confirm your password",
+      "already-have-account": "Already have an account?"
+    }
+  },
+  "ka": {
+    "translation": {
+      "home": "მთავარი",
+      "write": "ჩანაწერები",
+      "about": "ჩვენს შესახებ",
+      "sign-in-title": "შედით BitBlogs-ზე",
+      "sign-in-subtitle": "შეიყვანეთ თქვენი მონაცემები ანგარიშზე შესასვლელად",
+      "email": "ელ.ფოსტა",
+      "email-placeholder": "შეიყვანეთ თქვენი ელ.ფოსტა",
+      "password": "პაროლი",
+      "password-placeholder": "შეიყვანეთ თქვენი პაროლი",
+      "sign-in": "შესვლა",
+      "no-account": "ანგარიში არ გაქვთ?",
+      "sign-up": "რეგისტრაცია",
+      "sign-up-title": "რეგისტრაცია BitBlogs-ზე",
+      "sign-up-subtitle": "შეიყვანეთ თქვენი მონაცემები ანგარიშის შესაქმნელად",
+      "confirm-password": "დაადასტურეთ პაროლი",
+      "confirm-password-placeholder": "დაადასტურეთ თქვენი პაროლი",
+      "already-have-account": "უკვე გაქვთ ანგარიში?"
+    }
+  }
+}

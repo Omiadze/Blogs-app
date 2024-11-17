@@ -9,10 +9,9 @@ import {
 import { Blog } from "@/types/blog";
 
 const BlogCard = ({ blog }: { blog: Blog }) => {
-  //useMutation for update
   return (
     <div>
-      <Card className="max-w-sm mx-auto dark:bg-gray-900 mb-10">
+      <Card className="mx-auto mb-10 max-w-sm dark:bg-gray-900">
         <CardHeader>
           <CardTitle>{blog.title}</CardTitle>
           <CardDescription>
@@ -29,7 +28,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
             {blog.tags.map((tag, index) => (
               <span
                 key={index}
-                className="text-xs bg-gray-200 text-gray-700 rounded-full px-2 py-1"
+                className="rounded-full bg-gray-200 px-2 py-1 text-xs text-gray-700"
               >
                 #{tag}
               </span>

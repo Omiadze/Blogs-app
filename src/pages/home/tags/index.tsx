@@ -1,21 +1,23 @@
 import { Button } from "@/components/ui/button";
+
 const Tags = () => {
   const tags = [
     "Blockchain",
     "Cryptocurrency",
     "Technology",
-    "Programing",
+    "Programming",
     "AI",
     "Machine Learning",
   ];
+
   return (
-    <div className="p-8 border-2 border-black rounded-xl mb-14 dark:border-white">
-      <h3 className="mb-6 dark:text-white">Popular Tags</h3>
-      <div className="flex gap-2 flex-wrap">
+    <div className="mb-14 rounded-xl border border-border bg-card p-8 text-card-foreground">
+      <h3 className="mb-6 text-lg font-semibold text-primary">Popular Tags</h3>
+      <div className="flex flex-wrap gap-2">
         {tags.map((tag, index) => (
           <Button
             key={index}
-            className="rounded-3xl bg-blue-400 hover:bg-blue-200 dark:bg-blue-600"
+            className="rounded-3xl bg-muted text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           >
             {tag}
           </Button>

@@ -1,7 +1,9 @@
 const Footer = () => {
   return (
-    <div className="p-16 flex justify-center bg-gray-50 ">
-      <h3>© 2025 bitBlogs. All rights reserved.</h3>
+    <div className="flex justify-center bg-gray-50 p-16 text-card-foreground dark:bg-slate-900">
+      <h3 className="text-center text-sm text-black dark:text-white">
+        © 2025 bitBlogs. All rights reserved.
+      </h3>
     </div>
   );
 };

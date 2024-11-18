@@ -7,7 +7,7 @@ const Authors = () => {
     },
     {
       name: "Bob Smith",
-      profession: "BCrypto Analyst",
+      profession: "Crypto Analyst",
       id: "2",
     },
     {
@@ -16,15 +16,20 @@ const Authors = () => {
       id: "3",
     },
   ];
+
   return (
-    <div className="rounded-xl border-2 border-black p-8 dark:border-white">
-      <h3 className="mb-6 dark:text-white">Featured Authors</h3>
+    <div className="rounded-xl border border-border bg-card p-8 text-card-foreground">
+      <h3 className="mb-6 text-lg font-semibold text-primary">
+        Featured Authors
+      </h3>
       {authors.map((author) => (
-        <div key={author.id} className="mb-3 flex gap-2">
-          <div className="h-12 w-12 rounded-full border-2 border-black bg-white"></div>
-          <div className="dark:text-white">
-            <h5>{author.name}</h5>
-            <p>{author.profession}</p>
+        <div key={author.id} className="mb-3 flex gap-4">
+          <div className="h-12 w-12 rounded-full border-2 border-border"></div>
+          <div>
+            <h5 className="text-base font-medium text-foreground">
+              {author.name}
+            </h5>
+            <p className="text-sm text-muted-foreground">{author.profession}</p>
           </div>
         </div>
       ))}

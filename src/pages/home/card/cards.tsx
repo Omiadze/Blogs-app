@@ -11,7 +11,7 @@ const Cards: React.FC = () => {
   });
   console.log(data);
   return (
-    <div className="w-full">
+    <div className="m-5 w-full">
       {data?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
     </div>
   );

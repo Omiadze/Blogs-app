@@ -10,7 +10,10 @@ import {
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
+import { login } from "@/supabase/auth";
+import { toast } from "react-toastify";
 
 function SignIn() {
   const { t } = useTranslation();
@@ -22,21 +25,56 @@ function SignIn() {
     },
   });
 
-  const onSubmit = (data: unknown) => {
-    console.log("Form Data:", data);
+  const { mutate: handleLogin } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: login,
+    onSuccess: (data) => {
+      if (data.error) {
+        toast.error(data.error.message || t("login-failed"));
+      } else {
+        toast.success(t("login-success"));
+
+        console.log("User signed in:", data);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message || t("login-failed"));
+    },
+  });
+
+  const onSubmit = (data: { email: string; password: string }) => {
+    const { email, password } = data;
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error(t("invalid-email"));
+      return;
+    }
+
+    // Ensure password is provided
+    if (!password) {
+      toast.error(t("password-required"));
+      return;
+    }
+
+    handleLogin({ email, password });
   };
 
   return (
-    <div className="flex h-screen items-center justify-center bg-gray-100 dark:bg-gray-900">
-      <div className="w-full max-w-md rounded border-2 bg-white p-8 shadow dark:border-white dark:bg-gray-900 dark:text-white">
-        <div className="mb-8 flex flex-col items-center justify-center">
+    <div className="flex h-screen items-center justify-center bg-card">
+      <div className="w-full max-w-md rounded border-2 bg-card p-8 shadow">
+        <div className="mb-8 flex flex-col items-center justify-center text-primary-foreground">
           <h1 className="mb-4 text-center text-2xl font-bold">
             {t("sign-in-title")}
           </h1>
           <p>{t("sign-in-subtitle")}</p>
         </div>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-4 text-muted-foreground"
+          >
+            {/* Email Field */}
             <FormField
               name="email"
               control={form.control}
@@ -50,6 +88,8 @@ function SignIn() {
                 </FormItem>
               )}
             />
+
+            {/* Password Field */}
             <FormField
               name="password"
               control={form.control}
@@ -67,18 +107,18 @@ function SignIn() {
                 </FormItem>
               )}
             />
-            <Button
-              variant="outline"
-              type="submit"
-              className="w-full rounded-2xl bg-blue-700 text-white dark:bg-blue-700 dark:text-white"
-            >
+
+            {/* Submit Button */}
+            <Button type="submit" className="w-full rounded-2xl bg-primary">
               {t("sign-in")}
             </Button>
           </form>
         </Form>
-        <p className="mt-4 text-center text-sm">
+
+        {/* Link to Register */}
+        <p className="mt-4 text-center text-sm text-primary-foreground">
           {t("no-account")}{" "}
-          <Link to={"/register"} className="text-blue-700">
+          <Link to={"/register"} className="text-primary">
             {t("sign-up")}
           </Link>
         </p>

@@ -11,9 +11,9 @@ import { Blog } from "@/types/blog";
 const BlogCard = ({ blog }: { blog: Blog }) => {
   return (
     <div>
-      <Card className="mx-auto mb-10 max-w-sm rounded-lg border border-border bg-card p-6 text-card-foreground">
+      <Card className="mx-auto mb-4 rounded-lg border border-border bg-card p-6 text-card-foreground">
         <CardHeader>
-          <CardTitle className="font-semibold text-primary">
+          <CardTitle className="font-semibold text-primary-foreground">
             {blog.title}
           </CardTitle>
           <CardDescription>
@@ -23,7 +23,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <p className="text-sm text-foreground">{blog.content}</p>
+          <p className="text-sm text-muted-foreground">{blog.content}</p>
         </CardContent>
         <CardFooter>
           <div className="flex flex-wrap gap-2">

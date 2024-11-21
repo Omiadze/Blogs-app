@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { login } from "@/supabase/auth";
+import { toast } from "react-toastify";
 
 function SignIn() {
   const { t } = useTranslation();
@@ -27,22 +28,34 @@ function SignIn() {
   const { mutate: handleLogin } = useMutation({
     mutationKey: ["login"],
     mutationFn: login,
+    onSuccess: (data) => {
+      if (data.error) {
+        toast.error(data.error.message || t("login-failed"));
+      } else {
+        toast.success(t("login-success"));
+
+        console.log("User signed in:", data);
+      }
+    },
+    onError: (error) => {
+      toast.error(error.message || t("login-failed"));
+    },
   });
 
   const onSubmit = (data: { email: string; password: string }) => {
     const { email, password } = data;
 
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   toast.error(t("invalid-email"));
-    //   return;
-    // }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error(t("invalid-email"));
+      return;
+    }
 
-    // // Ensure password is provided
-    // if (!password) {
-    //   toast.error(t("password-required"));
-    //   return;
-    // }
+    // Ensure password is provided
+    if (!password) {
+      toast.error(t("password-required"));
+      return;
+    }
 
     handleLogin({ email, password });
   };

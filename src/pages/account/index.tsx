@@ -46,7 +46,7 @@ const ProfileView = () => {
       <h1 className="p-5 text-center text-4xl font-bold text-muted-foreground">
         Your Profile Info
       </h1>
-      <div className="mb-4 flex flex-col items-center justify-center gap-y-4 text-muted-foreground">
+      <div className="mb-4 mb-52 flex flex-col items-center justify-center gap-y-4 text-muted-foreground">
         <label>username</label>
         <input
           className="border border-black"

@@ -11,11 +11,23 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 import { useTheme } from "@/components/useTheme";
+import { useAuthContext } from "@/context/hooks/use-auth-context";
+import { useMutation } from "@tanstack/react-query";
+import { logout } from "@/supabase/auth";
+
+import Avatar from "@/components/avatar-svg";
 
 export function NavMenu() {
   // const [isDarkMode, setIsDarkMode] = useState(false);
+  // const navigate = useNavigate();
+  const { user } = useAuthContext();
+
   const [theme, setTheme] = useTheme();
 
+  const { mutate: handleLogout } = useMutation({
+    mutationKey: ["login"],
+    mutationFn: logout,
+  });
   const toggleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
@@ -53,14 +65,32 @@ export function NavMenu() {
         <Button variant="outline" className="flex items-center dark:text-white">
           <Search className="mr-2 h-5 w-5 text-muted-foreground" />
         </Button>
-        <Link to={"/login"}>
-          <Button
-            variant="outline"
-            className="rounded-2xl bg-blue-500 dark:border-white dark:text-white"
-          >
-            {t("sign-in")}{" "}
-          </Button>
-        </Link>
+
+        {user ? (
+          <div className="flex items-center justify-center gap-4">
+            <Link
+              className="h-12 w-12 rounded-full bg-muted-foreground"
+              to={"/profile"}
+            >
+              <Avatar seed={"Avatar"} />
+            </Link>
+            <Button
+              onClick={() => handleLogout()}
+              className="rounded-2xl bg-blue-500 dark:border-white dark:text-white"
+            >
+              Logout
+            </Button>
+          </div>
+        ) : (
+          <Link to={"/login"}>
+            <Button
+              variant="outline"
+              className="rounded-2xl bg-blue-500 dark:border-white dark:text-white"
+            >
+              {t("sign-in")}{" "}
+            </Button>
+          </Link>
+        )}
 
         <Button
           onClick={() => handleChangeLanguage("en")}

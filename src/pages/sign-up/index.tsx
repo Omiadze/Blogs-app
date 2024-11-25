@@ -11,7 +11,7 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { register } from "@/supabase/auth"; // Your register function
+import { register } from "@/supabase/auth";
 import { toast } from "react-toastify";
 
 function SignUp() {
@@ -28,13 +28,6 @@ function SignUp() {
   const { mutate: handleRegister } = useMutation({
     mutationKey: ["register"],
     mutationFn: register,
-    onSuccess: () => {
-      toast.success(t("sign-up-success"));
-      form.reset(); // Reset form after successful registration
-    },
-    onError: (error) => {
-      toast.error(error.message || t("sign-up-failed"));
-    },
   });
 
   const onSubmit = (data: {
@@ -44,7 +37,6 @@ function SignUp() {
   }) => {
     const { email, password, confirmPassword } = data;
 
-    // Ensure passwords match before proceeding
     if (password !== confirmPassword) {
       toast.error(t("passwords-dont-match"));
       return;
@@ -130,7 +122,7 @@ function SignUp() {
         {/* Link to Login */}
         <p className="mt-4 text-center text-sm text-primary-foreground">
           {t("already-have-account")}{" "}
-          <a href="/login" className="text-blue-700">
+          <a href="/login" className="text-primary">
             {t("sign-in")}
           </a>
         </p>

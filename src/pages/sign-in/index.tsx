@@ -11,12 +11,13 @@ import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { login } from "@/supabase/auth";
 import { toast } from "react-toastify";
 
 function SignIn() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const form = useForm({
     defaultValues: {
@@ -29,13 +30,7 @@ function SignIn() {
     mutationKey: ["login"],
     mutationFn: login,
     onSuccess: (data) => {
-      if (data.error) {
-        toast.error(data.error.message || t("login-failed"));
-      } else {
-        toast.success(t("login-success"));
-
-        console.log("User signed in:", data);
-      }
+      console.log("User signed in:", data);
     },
     onError: (error) => {
       toast.error(error.message || t("login-failed"));
@@ -109,7 +104,11 @@ function SignIn() {
             />
 
             {/* Submit Button */}
-            <Button type="submit" className="w-full rounded-2xl bg-primary">
+            <Button
+              type="submit"
+              className="w-full rounded-2xl bg-primary"
+              onClick={() => navigate("/home")}
+            >
               {t("sign-in")}
             </Button>
           </form>

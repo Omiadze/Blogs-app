@@ -1,9 +1,10 @@
 import { createContext, PropsWithChildren, useState } from "react";
-import { FillProfileInfoPayload } from "@/supabase/account/index.types";
+
+import { Session } from "@supabase/supabase-js";
 
 type AuthContextType = {
-  user: FillProfileInfoPayload | null;
-  handleSetUser: (user: FillProfileInfoPayload | null) => void;
+  user: Session | null;
+  handleSetUser: (user: Session | null) => void;
 };
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -12,9 +13,9 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 );
 
 export const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<FillProfileInfoPayload | null>(null);
+  const [user, setUser] = useState<Session | null>(null);
 
-  const handleSetUser = (user: FillProfileInfoPayload | null) => {
+  const handleSetUser = (user: Session | null) => {
     setUser(user);
   };
 

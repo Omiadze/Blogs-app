@@ -32,7 +32,12 @@ const ProfileView = () => {
   });
 
   const handleSubmit = () => {
-    handleFillProfileInfo({ ...profilePayload, id: user?.user?.id });
+    if (!user?.user?.id) {
+      console.error("User ID is undefined!");
+      return;
+    }
+
+    handleFillProfileInfo({ ...profilePayload, id: user.user.id });
   };
   useEffect(() => {
     console.log("Avatar URL being set:", profilePayload.avatar_url);
@@ -46,7 +51,7 @@ const ProfileView = () => {
       <h1 className="p-5 text-center text-4xl font-bold text-muted-foreground">
         Your Profile Info
       </h1>
-      <div className="mb-4 mb-52 flex flex-col items-center justify-center gap-y-4 text-muted-foreground">
+      <div className="mb-52 flex flex-col items-center justify-center gap-y-4 text-muted-foreground">
         <label>username</label>
         <input
           className="border border-black"

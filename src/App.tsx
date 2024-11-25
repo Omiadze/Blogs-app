@@ -20,9 +20,7 @@ function App() {
   const { handleSetUser } = useAuthContext();
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        handleSetUser(session);
-      }
+      handleSetUser(session);
     });
 
     const {

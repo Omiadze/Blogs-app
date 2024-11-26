@@ -17,7 +17,24 @@
       "sign-up-subtitle": "Enter your credentials to create your account",
       "confirm-password": "Confirm Password",
       "confirm-password-placeholder": "Confirm your password",
-      "already-have-account": "Already have an account?"
+      "already-have-account": "Already have an account?",
+      "validation": {
+        "email-required": "Email is required",
+        "email-invalid": "Please enter a valid email address",
+        "password-required": "Password is required",
+        "password-min-length": "Password must be at least 6 characters long",
+        "password-max-length": "Password cannot exceed 20 characters"
+      },
+      "profile-info-title": "Your Profile Info",
+      "username": "Username",
+      "avatar": "Avatar",
+      "avatar-option-blue": "Blue",
+      "avatar-option-yellow": "Yellow",
+      "avatar-option-pink": "Pink",
+      "avatar-option-gray": "Gray",
+      "full-name-ka": "Full Name (ქართულად)",
+      "full-name-en": "Full Name (English)",
+      "edit-profile-info": "Edit Profile Info"
     }
   },
   "ka": {
@@ -38,7 +55,24 @@
       "sign-up-subtitle": "შეიყვანეთ თქვენი მონაცემები ანგარიშის შესაქმნელად",
       "confirm-password": "დაადასტურეთ პაროლი",
       "confirm-password-placeholder": "დაადასტურეთ თქვენი პაროლი",
-      "already-have-account": "უკვე გაქვთ ანგარიში?"
+      "already-have-account": "უკვე გაქვთ ანგარიში?",
+      "validation": {
+        "email-required": "ელ.ფოსტა აუცილებელია",
+        "email-invalid": "გთხოვთ შეიყვანოთ ვალიდური ელ.ფოსტა",
+        "password-required": "პაროლი აუცილებელია",
+        "password-min-length": "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს",
+        "password-max-length": "პაროლი არ უნდა აღემატებოდეს 20 სიმბოლოს"
+      },
+      "profile-info-title": "თქვენი პროფილის ინფორმაცია",
+      "username": "მომხმარებლის სახელი",
+      "avatar": "ავატარი",
+      "avatar-option-blue": "ლურჯი",
+      "avatar-option-yellow": "ყვითელი",
+      "avatar-option-pink": "ვარდისფერი",
+      "avatar-option-gray": "ნაცრისფერი",
+      "full-name-ka": "სრული სახელი (ქართულად)",
+      "full-name-en": "სრული სახელი (ინგლისურად)",
+      "edit-profile-info": "პროფილის ინფორმაციის რედაქტირება"
     }
   }
 }

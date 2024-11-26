@@ -1,15 +1,15 @@
 import { useTranslation } from "react-i18next";
-import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@components/ui/form";
+// import {
+//   Form,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormControl,
+//   FormMessage,
+// } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/supabase/auth";
 import { toast } from "react-toastify";
@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 function SignUp() {
   const { t } = useTranslation();
 
-  const form = useForm({
+  const { control, handleSubmit, formState } = useForm({
     defaultValues: {
       email: "",
       password: "",
@@ -54,70 +54,115 @@ function SignUp() {
           </h1>
           <p>{t("sign-up-subtitle")}</p>
         </div>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 text-muted-foreground"
+        <div className="flex flex-col items-center justify-center gap-4 text-muted-foreground">
+          <label htmlFor="email">{t("email")}</label>
+          <Controller
+            name="email"
+            control={control}
+            rules={{
+              required: "Email is required",
+
+              pattern: {
+                value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                message: "Please enter a valid email address",
+              },
+            }}
+            render={({ field: { onChange, value } }) => (
+              <div className="w-full">
+                <Input
+                  placeholder={t("email")}
+                  onChange={onChange}
+                  value={value}
+                  className="border border-muted-foreground"
+                />
+                {formState.errors?.email && (
+                  <p className="text-red-500">
+                    {formState.errors?.email?.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
+
+          <label htmlFor="">{t("password")}</label>
+          <Controller
+            name="password"
+            control={control}
+            rules={{
+              required: t("validation.password-required"),
+              minLength: {
+                value: 6,
+                message: t("validation.password-min-length"),
+              },
+              maxLength: {
+                value: 20,
+                message: t("validation.password-max-length"),
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <div className="w-full">
+                <Input
+                  {...field}
+                  placeholder={t("password-placeholder")}
+                  type="password"
+                  className={`border ${
+                    fieldState.error
+                      ? "border-red-500"
+                      : "border-muted-foreground"
+                  }`}
+                />
+                {fieldState.error && (
+                  <p className="text-sm text-red-500">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
+          <label htmlFor="">Password</label>
+          <Controller
+            name="confirmPassword"
+            control={control}
+            rules={{
+              required: t("validation.password-required"),
+              minLength: {
+                value: 6,
+                message: t("validation.password-min-length"),
+              },
+              maxLength: {
+                value: 20,
+                message: t("validation.password-max-length"),
+              },
+            }}
+            render={({ field, fieldState }) => (
+              <div className="w-full">
+                <Input
+                  {...field}
+                  placeholder={t("password-placeholder")}
+                  type="password"
+                  className={`max-w-full border ${
+                    fieldState.error
+                      ? "border-red-500"
+                      : "border-muted-foreground"
+                  }`}
+                />
+                {fieldState.error && (
+                  <p className="text-sm text-red-500">
+                    {fieldState.error.message}
+                  </p>
+                )}
+              </div>
+            )}
+          />
+
+          {formState.errors?.password ? <span>savaldebuloa</span> : null}
+          <Button
+            className="w-full rounded-2xl bg-primary"
+            onClick={handleSubmit(onSubmit)}
           >
-            {/* Email Field */}
-            <FormField
-              name="email"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("email")}</FormLabel>
-                  <FormControl>
-                    <Input placeholder={t("email-placeholder")} {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Password Field */}
-            <FormField
-              name="password"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("password")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder={t("password-placeholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Confirm Password Field */}
-            <FormField
-              name="confirmPassword"
-              control={form.control}
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>{t("confirm-password")}</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder={t("confirm-password-placeholder")}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {/* Submit Button */}
-            <Button type="submit" className="w-full rounded-2xl bg-primary">
-              {t("sign-up")}
-            </Button>
-          </form>
-        </Form>
+            {t("sign-up")}
+          </Button>
+        </div>
 
         {/* Link to Login */}
         <p className="mt-4 text-center text-sm text-primary-foreground">

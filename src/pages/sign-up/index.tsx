@@ -60,11 +60,11 @@ function SignUp() {
             name="email"
             control={control}
             rules={{
-              required: t("validation.email-required"),
+              required: "validation.email-required",
 
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: t("validation.email-invalid"),
+                message: "validation.email-invalid",
               },
             }}
             render={({ field: { onChange, value } }) => (
@@ -77,7 +77,10 @@ function SignUp() {
                 />
                 {formState.errors?.email && (
                   <p className="text-red-500">
-                    {formState.errors?.email?.message}
+                    {t(
+                      formState.errors?.email?.message ??
+                        "validation.default-error",
+                    )}
                   </p>
                 )}
               </div>
@@ -89,14 +92,14 @@ function SignUp() {
             name="password"
             control={control}
             rules={{
-              required: t("validation.password-required"),
+              required: "validation.password-required",
               minLength: {
                 value: 6,
-                message: t("validation.password-min-length"),
+                message: "validation.password-min-length",
               },
               maxLength: {
                 value: 20,
-                message: t("validation.password-max-length"),
+                message: "validation.password-max-length",
               },
             }}
             render={({ field, fieldState }) => (
@@ -113,7 +116,7 @@ function SignUp() {
                 />
                 {fieldState.error && (
                   <p className="text-sm text-red-500">
-                    {fieldState.error.message}
+                    {t(fieldState.error.message ?? "validation.default-error")}
                   </p>
                 )}
               </div>
@@ -124,14 +127,14 @@ function SignUp() {
             name="confirmPassword"
             control={control}
             rules={{
-              required: t("validation.password-required"),
+              required: "validation.password-required",
               minLength: {
                 value: 6,
-                message: t("validation.password-min-length"),
+                message: "validation.password-min-length",
               },
               maxLength: {
                 value: 20,
-                message: t("validation.password-max-length"),
+                message: "validation.password-max-length",
               },
             }}
             render={({ field, fieldState }) => (
@@ -148,7 +151,7 @@ function SignUp() {
                 />
                 {fieldState.error && (
                   <p className="text-sm text-red-500">
-                    {fieldState.error.message}
+                    {t(fieldState.error.message ?? "validation.default-error")}
                   </p>
                 )}
               </div>

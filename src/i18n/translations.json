@@ -23,7 +23,8 @@
         "email-invalid": "Please enter a valid email address",
         "password-required": "Password is required",
         "password-min-length": "Password must be at least 6 characters long",
-        "password-max-length": "Password cannot exceed 20 characters"
+        "password-max-length": "Password cannot exceed 20 characters",
+        "default-error": "Error"
       },
       "profile-info-title": "Your Profile Info",
       "username": "Username",
@@ -61,7 +62,8 @@
         "email-invalid": "გთხოვთ შეიყვანოთ ვალიდური ელ.ფოსტა",
         "password-required": "პაროლი აუცილებელია",
         "password-min-length": "პაროლი უნდა შეიცავდეს მინიმუმ 6 სიმბოლოს",
-        "password-max-length": "პაროლი არ უნდა აღემატებოდეს 20 სიმბოლოს"
+        "password-max-length": "პაროლი არ უნდა აღემატებოდეს 20 სიმბოლოს",
+        "default-error": "Error"
       },
       "profile-info-title": "თქვენი პროფილის ინფორმაცია",
       "username": "მომხმარებლის სახელი",

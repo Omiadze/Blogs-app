@@ -1,27 +1,19 @@
 import { useTranslation } from "react-i18next";
-// import {
-//   Form,
-//   FormField,
-//   FormItem,
-//   FormLabel,
-//   FormControl,
-//   FormMessage,
-// } from "@components/ui/form";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/supabase/auth";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { SignUpInfoValuesDefault } from "@/form-defaults/form-defaults";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 function SignUp() {
-  const { t, i18n } = useTranslation();
-  const location = useLocation();
+  const { t } = useTranslation();
+  // const location = useLocation();
 
-  const { control, handleSubmit, formState, trigger, reset } = useForm({
+  const { control, handleSubmit, formState } = useForm({
     defaultValues: SignUpInfoValuesDefault,
   });
 
@@ -45,13 +37,13 @@ function SignUp() {
     handleRegister({ email, password });
   };
   // using triger and reset for form validations
-  useEffect(() => {
-    trigger();
-  }, [i18n.language, trigger]);
+  // useEffect(() => {
+  //   trigger();
+  // }, [i18n.language, trigger]);
 
-  useEffect(() => {
-    return () => reset(SignUpInfoValuesDefault);
-  }, [reset, location.pathname]);
+  // useEffect(() => {
+  //   return () => reset(SignUpInfoValuesDefault);
+  // }, [reset, location.pathname]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-card">

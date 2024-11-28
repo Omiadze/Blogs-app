@@ -2,24 +2,23 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { login } from "@/supabase/auth";
 import { Button } from "@/components/ui/button";
 import { SignInValuesDefault } from "@/form-defaults/form-defaults";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 
 type FormValues = {
   email: string;
   password: string;
 };
 function SignIn() {
-  const { t, i18n } = useTranslation();
-  const location = useLocation();
+  const { t } = useTranslation();
+  // const location = useLocation();
 
-  const { control, handleSubmit, formState, trigger, reset } =
-    useForm<FormValues>({
-      defaultValues: SignInValuesDefault,
-    });
+  const { control, handleSubmit, formState } = useForm<FormValues>({
+    defaultValues: SignInValuesDefault,
+  });
 
   const { mutate: handleLogin } = useMutation({
     mutationKey: ["login"],
@@ -36,13 +35,13 @@ function SignIn() {
   };
 
   // using triger and reset for form validations
-  useEffect(() => {
-    trigger();
-  }, [i18n.language, trigger]);
+  // useEffect(() => {
+  //   trigger();
+  // }, [i18n.language]);
 
-  useEffect(() => {
-    return () => reset(SignInValuesDefault);
-  }, [reset, location.pathname]);
+  // useEffect(() => {
+  //   return () => reset(SignInValuesDefault);
+  // }, [reset]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-card">

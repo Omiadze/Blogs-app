@@ -1,29 +1,25 @@
 import { useTranslation } from "react-i18next";
-
 import { Input } from "@components/ui/input";
-// import { Button } from "@components/ui/button";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { login } from "@/supabase/auth";
-import { toast } from "react-toastify";
 import { Button } from "@/components/ui/button";
+import { SignInValuesDefault } from "@/form-defaults/form-defaults";
+import { useEffect } from "react";
 
 type FormValues = {
   email: string;
   password: string;
 };
 function SignIn() {
-  const { t } = useTranslation();
-  // const navigate = useNavigate();
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
 
-  const { control, handleSubmit, formState } = useForm<FormValues>({
-    defaultValues: { email: "", password: "" },
-  });
-
-  // const onSubmit = (fieldValues: any) => {
-  //   console.log(fieldValues);
-  // };
+  const { control, handleSubmit, formState, trigger, reset } =
+    useForm<FormValues>({
+      defaultValues: SignInValuesDefault,
+    });
 
   const { mutate: handleLogin } = useMutation({
     mutationKey: ["login"],
@@ -31,28 +27,22 @@ function SignIn() {
     onSuccess: (data) => {
       console.log("User signed in:", data);
     },
-    onError: (error) => {
-      toast.error(error.message || t("login-failed"));
-    },
   });
 
   const onSubmit = (data: { email: string; password: string }) => {
     const { email, password } = data;
 
-    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    // if (!emailRegex.test(email)) {
-    //   toast.error(t("invalid-email"));
-    //   return;
-    // }
-
-    // // Ensure password is provided
-    // if (!password) {
-    //   toast.error(t("password-required"));
-    //   return;
-    // }
-
     handleLogin({ email, password });
   };
+
+  // using triger and reset for form validations
+  useEffect(() => {
+    trigger();
+  }, [i18n.language, trigger]);
+
+  useEffect(() => {
+    return () => reset(SignInValuesDefault);
+  }, [reset, location.pathname]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-card">

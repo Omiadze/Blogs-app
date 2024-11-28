@@ -8,19 +8,16 @@ import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
+import { ProfileValuesDefault } from "@/form-defaults/form-defaults";
 
 const ProfileView = () => {
   const { t } = useTranslation();
+
   const { user } = useAuthContext();
   const { handleSetUserSvg } = useSvgContext();
 
   const { register, handleSubmit, watch } = useForm<FillProfileInfoPayload>({
-    defaultValues: {
-      avatar_url: "https://api.dicebear.com/9.x/bottts/svg?baseColor=1e88e5",
-      full_name_en: "",
-      full_name_ka: "",
-      username: "",
-    },
+    defaultValues: ProfileValuesDefault,
   });
 
   const avatarUrl = watch("avatar_url");

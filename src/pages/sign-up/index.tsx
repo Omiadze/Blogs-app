@@ -13,16 +13,16 @@ import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import { register } from "@/supabase/auth";
 import { toast } from "react-toastify";
+import { useEffect } from "react";
+import { SignUpInfoValuesDefault } from "@/form-defaults/form-defaults";
+import { useLocation } from "react-router-dom";
 
 function SignUp() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const location = useLocation();
 
-  const { control, handleSubmit, formState } = useForm({
-    defaultValues: {
-      email: "",
-      password: "",
-      confirmPassword: "",
-    },
+  const { control, handleSubmit, formState, trigger, reset } = useForm({
+    defaultValues: SignUpInfoValuesDefault,
   });
 
   const { mutate: handleRegister } = useMutation({
@@ -44,6 +44,14 @@ function SignUp() {
 
     handleRegister({ email, password });
   };
+  // using triger and reset for form validations
+  useEffect(() => {
+    trigger();
+  }, [i18n.language, trigger]);
+
+  useEffect(() => {
+    return () => reset(SignUpInfoValuesDefault);
+  }, [reset, location.pathname]);
 
   return (
     <div className="flex h-screen items-center justify-center bg-card">
@@ -60,11 +68,11 @@ function SignUp() {
             name="email"
             control={control}
             rules={{
-              required: "Email is required",
+              required: t("validation.email-required"),
 
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Please enter a valid email address",
+                message: t("validation.email-invalid"),
               },
             }}
             render={({ field: { onChange, value } }) => (
@@ -155,7 +163,6 @@ function SignUp() {
             )}
           />
 
-          {formState.errors?.password ? <span>savaldebuloa</span> : null}
           <Button
             className="w-full rounded-2xl bg-primary"
             onClick={handleSubmit(onSubmit)}

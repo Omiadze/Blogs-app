@@ -34,15 +34,6 @@ function SignIn() {
     handleLogin({ email, password });
   };
 
-  // using triger and reset for form validations
-  // useEffect(() => {
-  //   trigger();
-  // }, [i18n.language]);
-
-  // useEffect(() => {
-  //   return () => reset(SignInValuesDefault);
-  // }, [reset]);
-
   return (
     <div className="flex h-screen items-center justify-center bg-card">
       <div className="max-w-md rounded border-2 bg-card p-8 shadow">

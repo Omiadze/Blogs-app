@@ -9,30 +9,71 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      Blogs: {
+        Row: {
+          created_at: string
+          description_en: string | null
+          description_ka: string | null
+          id: number
+          image_url: string | null
+          title_en: string | null
+          title_ka: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description_en?: string | null
+          description_ka?: string | null
+          id?: number
+          image_url?: string | null
+          title_en?: string | null
+          title_ka?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description_en?: string | null
+          description_ka?: string | null
+          id?: number
+          image_url?: string | null
+          title_en?: string | null
+          title_ka?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Blogs_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
-          full_name: string | null
+          full_name_en: string | null
+          full_name_ka: string | null
           id: string
           updated_at: string | null
           username: string | null
-          website: string | null
         }
         Insert: {
           avatar_url?: string | null
-          full_name?: string | null
+          full_name_en?: string | null
+          full_name_ka?: string | null
           id: string
           updated_at?: string | null
           username?: string | null
-          website?: string | null
         }
         Update: {
           avatar_url?: string | null
-          full_name?: string | null
+          full_name_en?: string | null
+          full_name_ka?: string | null
           id?: string
           updated_at?: string | null
           username?: string | null
-          website?: string | null
         }
         Relationships: []
       }

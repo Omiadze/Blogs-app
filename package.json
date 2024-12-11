@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "supabase-types": "npx supabase gen types --lang=typescript --project-id lghhkqthhzsclhzoggge --schema public > src/supabase/supabase.types.ts",
+    "supabase-types": "npx supabase gen types --lang=typescript --project-id ooseptdwkauewqtbgeac --schema public > src/supabase/supabase.types.ts",
     "run-db": "node server.cjs"
   },
   "dependencies": {

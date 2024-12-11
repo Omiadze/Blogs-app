@@ -1,18 +1,26 @@
-import { getblogs } from "@/api/blogs";
-import { useQuery } from "@tanstack/react-query";
 import BlogCard from "./blog-card";
+import { useEffect, useState } from "react";
+import { supabase } from "@/supabase";
+import { SingleBlog } from "./singleBlog.types";
 
 const Cards: React.FC = () => {
-  const { data } = useQuery({
-    queryKey: ["blogs"],
-    queryFn: () => getblogs(),
-    retry: 0,
-    refetchOnWindowFocus: false,
-  });
-  console.log(data);
+  const [blogs, setBlogs] = useState<SingleBlog[]>([]);
+
+  useEffect(() => {
+    supabase
+      .from("Blogs")
+      .select("*")
+      .throwOnError()
+      .then((res) => {
+        const blogsList = res.data as unknown as SingleBlog[];
+        setBlogs(blogsList);
+        console.log(res, "this is res");
+      });
+  }, []);
+
   return (
     <div className="m-5 w-full">
-      {data?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
+      {blogs?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
     </div>
   );
 };

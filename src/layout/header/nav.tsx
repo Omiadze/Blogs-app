@@ -1,33 +1,33 @@
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { Sun, Moon, Search } from "lucide-react";
-// import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom"; // Import useNavigate for URL manipulation
 import { useTranslation } from "react-i18next";
 import i18n from "i18next";
 import { useTheme } from "@/components/useTheme";
 import { useAuthContext } from "@/context/hooks/use-auth-context";
 import { useMutation } from "@tanstack/react-query";
 import { logout } from "@/supabase/auth";
-
 import Avatar from "@/components/avatar-svg";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
 
 export function NavMenu() {
-  // const [isDarkMode, setIsDarkMode] = useState(false);
-  // const navigate = useNavigate();
   const { user } = useAuthContext();
-
+  // const { userSvg } = useAuthContext();
   const [theme, setTheme] = useTheme();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { lang } = useParams();
 
   const { mutate: handleLogout } = useMutation({
     mutationKey: ["login"],
     mutationFn: logout,
   });
+
   const toggleTheme = () => {
     if (theme === "light") {
       setTheme("dark");
@@ -35,10 +35,10 @@ export function NavMenu() {
       setTheme("light");
     }
   };
-  const { t } = useTranslation();
 
   const handleChangeLanguage = (lang: string) => {
-    i18n.changeLanguage(lang);
+    i18n.changeLanguage(lang); // Change the language in i18n
+    navigate(`/${lang}`); // Update the URL with the language code
   };
 
   return (
@@ -50,13 +50,17 @@ export function NavMenu() {
       <NavigationMenu>
         <NavigationMenuList className="flex space-x-6 text-muted-foreground">
           <NavigationMenuItem>
-            <NavigationMenuLink href="/home">{t("home")}</NavigationMenuLink>
+            <NavigationMenuLink href="/">{t("home")}</NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/write">{t("write")}</NavigationMenuLink>
+            <NavigationMenuLink href={`/${lang}/createBlogs`}>
+              {t("add-blogs")}
+            </NavigationMenuLink>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/about">{t("about")}</NavigationMenuLink>
+            <NavigationMenuLink href={`/${lang}/about`}>
+              {t("about")}
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
@@ -70,7 +74,7 @@ export function NavMenu() {
           <div className="flex items-center justify-center gap-4">
             <Link
               className="h-12 w-12 rounded-full bg-muted-foreground"
-              to={"/profile"}
+              to={`/${lang}/profile`}
             >
               <Avatar seed={"Avatar"} />
             </Link>
@@ -82,7 +86,7 @@ export function NavMenu() {
             </Button>
           </div>
         ) : (
-          <Link to={"/login"}>
+          <Link to={`/${lang}/login`}>
             <Button
               variant="outline"
               className="rounded-2xl bg-blue-500 dark:border-white dark:text-white"

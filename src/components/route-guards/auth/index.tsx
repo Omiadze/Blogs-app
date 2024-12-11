@@ -8,7 +8,7 @@ const AuthGuard: React.FC<PropsWithChildren> = ({ children }) => {
   const { user } = useAuthContext();
 
   if (user) {
-    return <Navigate to="/home" />;
+    return <Navigate to="/" />;
   }
 
   return children || <Outlet />;

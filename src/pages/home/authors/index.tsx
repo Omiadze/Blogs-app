@@ -9,7 +9,7 @@ const Authors = () => {
       {authors.map((author) => (
         <div key={author.id} className="mb-3 flex gap-4">
           <div className="h-12 w-12 rounded-full border-2 border-border"></div>
-          <Link to={`/home/${author.id}`}>
+          <Link to={`/${author.id}`}>
             <div>
               <h5 className="text-base font-bold text-primary-foreground">
                 {author.name}

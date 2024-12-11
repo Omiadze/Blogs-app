@@ -12,3 +12,10 @@ export const ProfileValuesDefault = {
   full_name_ka: "",
   username: "",
 };
+export const BlogFormValuesDefault = {
+  title_en: "",
+  title_ka: "",
+  description_en: "",
+  description_ka: "",
+  image_url: "",
+};

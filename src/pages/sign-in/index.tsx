@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { login } from "@/supabase/auth";
 import { Button } from "@/components/ui/button";
 import { SignInValuesDefault } from "@/form-defaults/form-defaults";
@@ -14,7 +14,7 @@ type FormValues = {
 };
 function SignIn() {
   const { t } = useTranslation();
-  // const location = useLocation();
+  const { lang } = useParams();
 
   const { control, handleSubmit, formState } = useForm<FormValues>({
     defaultValues: SignInValuesDefault,
@@ -123,7 +123,7 @@ function SignIn() {
         {/* Link to Register */}
         <p className="mt-4 text-center text-sm text-primary-foreground">
           {t("no-account")}{" "}
-          <Link to={"/register"} className="text-primary">
+          <Link to={`/${lang}/register`} className="text-primary">
             {t("sign-up")}
           </Link>
         </p>

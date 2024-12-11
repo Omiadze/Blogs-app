@@ -7,11 +7,12 @@ import { register } from "@/supabase/auth";
 import { toast } from "react-toastify";
 // import { useEffect } from "react";
 import { SignUpInfoValuesDefault } from "@/form-defaults/form-defaults";
+import { useParams } from "react-router-dom";
 // import { useLocation } from "react-router-dom";
 
 function SignUp() {
   const { t } = useTranslation();
-  // const location = useLocation();
+  const { lang } = useParams();
 
   const { control, handleSubmit, formState } = useForm({
     defaultValues: SignUpInfoValuesDefault,
@@ -169,7 +170,7 @@ function SignUp() {
         {/* Link to Login */}
         <p className="mt-4 text-center text-sm text-primary-foreground">
           {t("already-have-account")}{" "}
-          <a href="/login" className="text-primary">
+          <a href={`/${lang}/login`} className="text-primary">
             {t("sign-in")}
           </a>
         </p>

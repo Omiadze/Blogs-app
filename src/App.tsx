@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./layout/layout";
 import Skeleton from "@/skeleton";
 import NotFound from "@/pages/not-found";
@@ -15,6 +15,7 @@ const LazyLoginPage = lazy(() => import("./pages/sign-in"));
 const LazyRegisterPage = lazy(() => import("./pages/sign-up"));
 const LazyAboutPage = lazy(() => import("./pages/about/index"));
 const LazyProfilePage = lazy(() => import("./pages/account/index"));
+const LazyCreateBlogPage = lazy(() => import("./pages/blogs/index"));
 // const LazyAuthorsPage = lazy(() => import("./pages/autor-page/index"));
 function App() {
   const { handleSetUser } = useAuthContext();
@@ -30,13 +31,16 @@ function App() {
     });
 
     return () => subscription.unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<Navigate to="/en" />} />
+
+        <Route path=":lang" element={<Layout />}>
           <Route
-            path="home"
+            index
             element={
               <Suspense fallback={<Skeleton />}>
                 <LazyHomePage />
@@ -81,9 +85,18 @@ function App() {
               </Suspense>
             }
           />
+          <Route
+            path="createBlogs"
+            element={
+              <Suspense fallback={<Skeleton />}>
+                <LazyCreateBlogPage />
+              </Suspense>
+            }
+          />
           <Route path="home/:id" element={<AuthorsPage />} />
         </Route>
 
+        {/* Fallback route for undefined paths */}
         <Route path="*" element={<NotFound />} />
       </Routes>
     </>

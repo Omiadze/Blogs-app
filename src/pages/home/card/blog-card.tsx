@@ -9,33 +9,34 @@ import {
 
 import { SingleBlog } from "./singleBlog.types";
 import { useParams } from "react-router-dom";
-// import { format } from "date-fns";
-// import { toZonedTime } from "date-fns-tz";
 import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import relativeTime from "dayjs/plugin/relativeTime";
 
+dayjs.extend(relativeTime);
 dayjs.extend(utc);
 dayjs.extend(timezone);
-dayjs.extend(relativeTime);
 
 const BlogCard = ({ blog }: { blog: SingleBlog }) => {
   const blogImgUrl = import.meta.env.VITE_SUPABASE_BLOG_IMAGES_STORAGE;
   const { lang } = useParams();
 
-  // Get the creation time as a Day.js object
-  const createdAt = dayjs(blog.create_time);
+  // logic for the time when blog was created
 
-  // Get the current time
-  // const now = dayjs();
+  const setBlogCreationTime = () => {
+    const createdAt = dayjs.utc(blog.created_at);
 
-  // Check if the blog was created within the last 24 hours
-  const isRecent = createdAt.diff(createdAt, "days") < 1;
+    const georgianTime = createdAt.tz("Asia/Tbilisi");
 
-  const displayTime = isRecent
-    ? createdAt.fromNow()
-    : createdAt.tz("Asia/Tbilisi").format("YYYY-MM-DD HH:mm:ss");
+    const displayTime = georgianTime.format("YYYY-MM-DD HH:mm:ss");
+
+    const now = dayjs().tz("Asia/Tbilisi");
+
+    const isRecent = now.diff(georgianTime, "hours") < 24;
+    const displayFormatedTime = isRecent ? georgianTime.fromNow() : displayTime;
+    return displayFormatedTime;
+  };
 
   return (
     <div>
@@ -61,7 +62,7 @@ const BlogCard = ({ blog }: { blog: SingleBlog }) => {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            <small>Created At: {displayTime}</small>
+            <small>Posted: {setBlogCreationTime()}</small>
           </p>
         </CardContent>
         <CardFooter>

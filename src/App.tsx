@@ -15,7 +15,7 @@ const LazyLoginPage = lazy(() => import("./pages/sign-in"));
 const LazyRegisterPage = lazy(() => import("./pages/sign-up"));
 const LazyAboutPage = lazy(() => import("./pages/about/index"));
 const LazyProfilePage = lazy(() => import("./pages/account/index"));
-const LazyCreateBlogPage = lazy(() => import("./pages/blogs/index"));
+const LazyCreateBlogPage = lazy(() => import("./pages/add-blogs/index"));
 // const LazyAuthorsPage = lazy(() => import("./pages/autor-page/index"));
 function App() {
   const { handleSetUser } = useAuthContext();

@@ -19,9 +19,15 @@ const Cards: React.FC = () => {
   }, []);
 
   return (
-    <div className="m-5 w-full">
-      {blogs?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
-    </div>
+    <>
+      {!blogs ? (
+        <div>loading...</div>
+      ) : (
+        <div className="m-5 w-full">
+          {blogs?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
+        </div>
+      )}
+    </>
   );
 };
 

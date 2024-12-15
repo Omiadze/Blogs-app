@@ -53,6 +53,7 @@ export function NavMenu() {
         <h1 className="hidden text-primary-foreground md:flex md:text-5xl">
           BitBlog
         </h1>
+        <h1 className="flex text-5xl text-primary-foreground md:hidden">BB</h1>
       </div>
 
       {/* Desktop Menu */}

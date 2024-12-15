@@ -29,29 +29,27 @@ const Cards: React.FC = () => {
   // Use the `use-debounce` hook
   const [debouncedSearchText] = useDebounce(watchedSearchText, 500);
 
-  // Number of blogs per page
+  // to make sure search works from the beeginning
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [debouncedSearchText]);
+
   const itemsPerPage = 5;
 
-  // Fetch the blogs with pagination
+  // fetching blogs (works with pagination)
   useEffect(() => {
     const start = (currentPage - 1) * itemsPerPage;
-    const end = start + itemsPerPage - 1;
-
     supabase
       .from("Blogs")
       .select("*", { count: "exact" })
       .ilike("title_en", `%${debouncedSearchText || ""}%`)
-      .range(start, end)
-      .throwOnError()
       .then((res) => {
         if (res.data) {
-          const blogsList = res.data as SingleBlog[];
-          setBlogs(blogsList);
-
           const totalCount = res.count || 0;
           setTotalPages(Math.ceil(totalCount / itemsPerPage));
-        } else {
-          console.error("Error fetching blogs:", res.error);
+
+          const blogsList = res.data.slice(start, start + itemsPerPage);
+          setBlogs(blogsList);
         }
       });
 
@@ -60,24 +58,18 @@ const Cards: React.FC = () => {
     );
   }, [debouncedSearchText, currentPage, setSearchParams]);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
-  };
-
-  const handlePreviousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
+  const handlePageChange = (direction: string) => {
+    setCurrentPage((prevPage) => {
+      const newPage = direction === "next" ? prevPage + 1 : prevPage - 1;
+      if (newPage >= 1 && newPage <= totalPages) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        return newPage;
+      }
+      return prevPage;
+    });
   };
 
   return (
@@ -92,41 +84,51 @@ const Cards: React.FC = () => {
         />
       </div>
       <div className="w-full">
-        {blogs?.map((blog) => <BlogCard key={blog.id} blog={blog} />)}
+        {blogs.length > 0 ? (
+          blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+        ) : (
+          <p className="text-center text-muted-foreground">No blogs found.</p>
+        )}
       </div>
 
-      <div className="mt-4 flex items-center justify-between">
+      <div className="mt-4 flex items-center justify-between gap-3">
         <button
-          onClick={handlePreviousPage}
+          onClick={() => {
+            handlePageChange("prev");
+          }}
           disabled={currentPage === 1}
           className="rounded-2xl bg-blue-500 p-2 disabled:opacity-50 dark:border-white dark:text-white"
         >
           Previous
         </button>
 
-        <div className="flex items-center space-x-2">
-          {/*  Display page numbers as clickable buttons */}
-          <div className="flex space-x-2">
-            {[...Array(totalPages)].map((_, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentPage(index + 1);
-                  window.scrollTo({
-                    top: 0,
-                    behavior: "smooth",
-                  });
-                }}
-                className={`rounded px-2 py-1 ${currentPage === index + 1 ? "bg-blue-500 text-white" : "bg-gray-200"}`}
-              >
-                {index + 1}
-              </button>
-            ))}
-          </div>
+        {/*  Display page numbers as clickable buttons */}
+        <div className="mt-3 flex justify-center gap-2 overflow-auto pb-2 align-middle">
+          {[...Array(totalPages)].map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setCurrentPage(index + 1);
+                window.scrollTo({
+                  top: 0,
+                  behavior: "smooth",
+                });
+              }}
+              className={`rounded px-2 py-1 ${
+                currentPage === index + 1
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-200"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
 
         <button
-          onClick={handleNextPage}
+          onClick={() => {
+            handlePageChange("next");
+          }}
           disabled={currentPage === totalPages}
           className="rounded-2xl bg-blue-500 p-2 disabled:opacity-50 dark:border-white dark:text-white"
         >

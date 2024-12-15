@@ -7,5 +7,4 @@ export type SingleBlog = {
   title_en: string | null;
   title_ka: string | null;
   user_id: string | null;
-  create_time: string | number | Date;
 };

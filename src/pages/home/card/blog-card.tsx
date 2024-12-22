@@ -6,37 +6,13 @@ import {
   CardTitle,
   CardDescription,
 } from "@/components/ui/card";
-
 import { SingleBlog } from "./singleBlog.types";
 import { useParams } from "react-router-dom";
-import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc";
-import timezone from "dayjs/plugin/timezone";
-import relativeTime from "dayjs/plugin/relativeTime";
-
-dayjs.extend(relativeTime);
-dayjs.extend(utc);
-dayjs.extend(timezone);
+import { setBlogCreationTime } from "./blog-creation-time";
 
 const BlogCard = ({ blog }: { blog: SingleBlog }) => {
   const blogImgUrl = import.meta.env.VITE_SUPABASE_BLOG_IMAGES_STORAGE;
   const { lang } = useParams();
-
-  // logic for the time when blog was created
-
-  const setBlogCreationTime = () => {
-    const createdAt = dayjs.utc(blog.created_at);
-
-    const georgianTime = createdAt.tz("Asia/Tbilisi");
-
-    const displayTime = georgianTime.format("YYYY-MM-DD HH:mm:ss");
-
-    const now = dayjs().tz("Asia/Tbilisi");
-
-    const isRecent = now.diff(georgianTime, "hours") < 24;
-    const displayFormatedTime = isRecent ? georgianTime.fromNow() : displayTime;
-    return displayFormatedTime;
-  };
 
   return (
     <div>
@@ -62,7 +38,7 @@ const BlogCard = ({ blog }: { blog: SingleBlog }) => {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            <small>Posted: {setBlogCreationTime()}</small>
+            <small>Posted: {setBlogCreationTime(blog.created_at)}</small>
           </p>
         </CardContent>
         <CardFooter>

@@ -5,7 +5,7 @@ export const useSvgContext = () => {
   const svg = useContext(SvgContext);
 
   if (!svg) {
-    throw new Error("You must use Auth Context inside Auth Context Provider !");
+    throw new Error("You must use SvgContext inside SvgProvider!");
   }
 
   return svg;

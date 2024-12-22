@@ -2,13 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuthContext } from "@/context/hooks/use-auth-context";
 import { useSvgContext } from "@/context/hooks/use-svg-context";
-import { fillProfileInfo, getProfileInfo } from "@/supabase/account";
+import { getProfileInfo } from "@/supabase/account";
 import { FillProfileInfoPayload } from "@/supabase/account/index.types";
-import { useMutation } from "@tanstack/react-query";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { ProfileValuesDefault } from "@/form-defaults/form-defaults";
+import { useFillProfileInfo } from "@/react-query/mutation";
 
 const ProfileView = () => {
   const { t } = useTranslation();
@@ -29,10 +29,7 @@ const ProfileView = () => {
     }
   }, [user]);
 
-  const { mutate: handleFillProfileInfo } = useMutation({
-    mutationKey: ["fill-profile-info"],
-    mutationFn: fillProfileInfo,
-  });
+  const { mutate: handleFillProfileInfo } = useFillProfileInfo();
 
   const onSubmit = (data: FillProfileInfoPayload) => {
     if (!user?.user?.id) {

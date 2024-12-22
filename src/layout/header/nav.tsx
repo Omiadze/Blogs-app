@@ -11,7 +11,6 @@ import Avatar from "@/components/avatar-svg";
 import {
   NavigationMenu,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
 } from "@/components/ui/navigation-menu";
 import {
@@ -21,13 +20,16 @@ import {
   DropdownMenuItem,
 } from "@components/ui/dropdown-menu";
 import { Languages } from "lucide-react";
+import { useSvgContext } from "@/context/hooks/use-svg-context";
 
 export function NavMenu() {
+  const defaultSvg = import.meta.env.VITE_DEFAULT_SVG;
   const { user } = useAuthContext();
   const [theme, setTheme] = useTheme();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { lang } = useParams();
+  const { userSvg } = useSvgContext();
 
   const { mutate: handleLogout } = useMutation({
     mutationKey: ["login"],
@@ -46,6 +48,7 @@ export function NavMenu() {
     i18n.changeLanguage(lang); // Change the language in i18n
     navigate(`/${lang}`); // Update the URL with the language code
   };
+  console.log("usssssssseeeeeeeer", userSvg);
 
   return (
     <div className="flex w-full justify-between border-b-2 border-black pb-5 pl-3 pr-3 pt-5 md:pl-14 md:pr-14 dark:border-white">
@@ -60,17 +63,13 @@ export function NavMenu() {
       <NavigationMenu className="hidden md:flex">
         <NavigationMenuList className="flex space-x-6 text-muted-foreground">
           <NavigationMenuItem>
-            <NavigationMenuLink href="/">{t("home")}</NavigationMenuLink>
+            <Link to={`/${lang}/`}>{t("home")}</Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href={`/${lang}/createBlogs`}>
-              {t("add-blogs")}
-            </NavigationMenuLink>
+            <Link to={`/${lang}/createBlogs`}>{t("add-blogs")}</Link>
           </NavigationMenuItem>
           <NavigationMenuItem>
-            <NavigationMenuLink href={`/${lang}/about`}>
-              {t("about")}
-            </NavigationMenuLink>
+            <Link to={`/${lang}/about`}>{t("about")}</Link>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
@@ -82,7 +81,8 @@ export function NavMenu() {
               className="h-12 w-12 rounded-full bg-muted-foreground"
               to={`/${lang}/profile`}
             >
-              <Avatar seed={"Avatar"} />
+              <Avatar seed={userSvg || defaultSvg} />{" "}
+              {/* Use the global avatar */}
             </Link>
             <Button
               onClick={() => handleLogout()}

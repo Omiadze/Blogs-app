@@ -1,12 +1,10 @@
 import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/input";
 import { Controller, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
-import { login } from "@/supabase/auth";
 import { Button } from "@/components/ui/button";
 import { SignInValuesDefault } from "@/form-defaults/form-defaults";
-// import { useEffect } from "react";
+import { useLogin } from "@/react-query/mutation";
 
 type FormValues = {
   email: string;
@@ -20,13 +18,7 @@ function SignIn() {
     defaultValues: SignInValuesDefault,
   });
 
-  const { mutate: handleLogin } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: login,
-    onSuccess: (data) => {
-      console.log("User signed in:", data);
-    },
-  });
+  const { mutate: handleLogin } = useLogin();
 
   const onSubmit = (data: { email: string; password: string }) => {
     const { email, password } = data;

@@ -2,13 +2,10 @@ import { useTranslation } from "react-i18next";
 import { Input } from "@components/ui/input";
 import { Button } from "@components/ui/button";
 import { Controller, useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { register } from "@/supabase/auth";
 import { toast } from "react-toastify";
-// import { useEffect } from "react";
 import { SignUpInfoValuesDefault } from "@/form-defaults/form-defaults";
 import { useParams } from "react-router-dom";
-// import { useLocation } from "react-router-dom";
+import { useRegister } from "@/react-query/mutation";
 
 function SignUp() {
   const { t } = useTranslation();
@@ -18,10 +15,7 @@ function SignUp() {
     defaultValues: SignUpInfoValuesDefault,
   });
 
-  const { mutate: handleRegister } = useMutation({
-    mutationKey: ["register"],
-    mutationFn: register,
-  });
+  const { mutate: handleRegister } = useRegister();
 
   const onSubmit = (data: {
     email: string;

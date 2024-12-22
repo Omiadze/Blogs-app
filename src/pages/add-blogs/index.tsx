@@ -23,6 +23,7 @@ function BlogsForm() {
   });
 
   const onSubmit = (data: FormValues) => {
+    console.log("data", data);
     supabase.storage
       .from("blog_images")
       .upload(data?.image_file?.name, data?.image_file)

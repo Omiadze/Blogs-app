@@ -26,32 +26,57 @@ const Cards: React.FC = () => {
 
   const watchedSearchText = watch("searchText");
 
-  // Use the `use-debounce` hook
   const [debouncedSearchText] = useDebounce(watchedSearchText, 500);
 
-  // to make sure search works from the beeginning
+  // Reset to page 1 when the search text changes
   useEffect(() => {
     setCurrentPage(1);
   }, [debouncedSearchText]);
 
   const itemsPerPage = 5;
 
-  // fetching blogs (works with pagination)
+  // Fetch blogs with server-side pagination
   useEffect(() => {
-    const start = (currentPage - 1) * itemsPerPage;
-    supabase
-      .from("Blogs")
-      .select("*", { count: "exact" })
-      .ilike("title_en", `%${debouncedSearchText || ""}%`)
-      .then((res) => {
-        if (res.data) {
-          const totalCount = res.count || 0;
-          setTotalPages(Math.ceil(totalCount / itemsPerPage));
+    const fetchBlogs = async () => {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage - 1;
 
-          const blogsList = res.data.slice(start, start + itemsPerPage);
-          setBlogs(blogsList);
-        }
-      });
+      // ეს რექვესთი მჭირდება search-ისთვის
+      const { count: totalCount, error: countError } = await supabase
+        .from("Blogs")
+        .select("*", { count: "exact", head: true })
+        .ilike("title_en", `%${debouncedSearchText || ""}%`);
+
+      if (countError) {
+        console.error("Error fetching total count:", countError);
+        return;
+      }
+
+      if (totalCount === 0 || start >= (totalCount ?? 0)) {
+        //  reset data
+        setBlogs([]);
+        setTotalPages(1);
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from("Blogs")
+        .select("*")
+        .ilike("title_en", `%${debouncedSearchText || ""}%`)
+        .range(start, end);
+
+      if (error) {
+        console.error("Error fetching blogs:", error);
+        return;
+      }
+
+      if (data) {
+        setBlogs(data);
+        setTotalPages(Math.ceil((totalCount ?? 0) / itemsPerPage));
+      }
+    };
+
+    fetchBlogs();
 
     setSearchParams(
       qs.stringify({ searchText: debouncedSearchText }, { skipNulls: true }),
@@ -102,7 +127,7 @@ const Cards: React.FC = () => {
           Previous
         </button>
 
-        {/*  Display page numbers as clickable buttons */}
+        {/* Display page numbers as clickable buttons */}
         <div className="mt-3 flex justify-center gap-2 overflow-auto pb-2 align-middle">
           {[...Array(totalPages)].map((_, index) => (
             <button
